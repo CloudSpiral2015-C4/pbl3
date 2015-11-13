@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<project>
+
+	<!-- 各メンバー固有のプロパティファイルの読み込み -->
+	<import file="build-common.xml" />
+
+
+	<!-- 男女別平均使用金額 singleMR -->
+	<target name="run.AveragePaymentBySex_SingleMR" depends="prepare">
+		<sshexec host="${ssh.server}" username="${ssh.user}" keyfile="${ssh.key}" trust="yes"
+			command="hadoop jar main.jar posmining.example.AveragePaymentBySex_SingleMR s3://cspiral-bigdata/posdata/"
+		/>
+	</target>
+
+	<!-- 男女別平均使用金額 inMapper -->
+	<target name="run.AveragePaymentBySex_InMapper" depends="prepare">
+		<sshexec host="${ssh.server}" username="${ssh.user}" keyfile="${ssh.key}" trust="yes"
+			command="hadoop jar main.jar posmining.example.AveragePaymentBySex_InMapper s3://cspiral-bigdata/posdata/"
+		/>
+	</target>
+
+	<!-- 男女別平均使用金額 twoMR 1st -->
+	<target name="run.AveragePaymentBySex_TwoMR_1st" depends="prepare">
+		<sshexec host="${ssh.server}" username="${ssh.user}" keyfile="${ssh.key}" trust="yes"
+			command="hadoop jar main.jar posmining.example.AveragePaymentBySex_TwoMR_1st s3://cspiral-bigdata/posdata/"
+		/>
+	</target>
+
+	<!-- 男女別平均使用金額 twoMR 2nd -->
+	<target name="run.AveragePaymentBySex_TwoMR_2nd" depends="prepare">
+		<sshexec host="${ssh.server}" username="${ssh.user}" keyfile="${ssh.key}" trust="yes"
+			command="hadoop jar main.jar posmining.example.AveragePaymentBySex_TwoMR_2nd"
+		/>
+	</target>
+
+	<!-- 日別おにぎり売り上げ -->
+	<target name="run.OnigiriSalesByDay" depends="prepare">
+		<sshexec host="${ssh.server}" username="${ssh.user}" keyfile="${ssh.key}" trust="yes"
+			command="hadoop jar main.jar posmining.example.OnigiriSalesByDay s3://cspiral-bigdata/posdata/"
+		/>
+	</target>
+
+	<!-- おにぎり種別総数 -->
+	<target name="run.OnigiriCountByType" depends="prepare">
+		<sshexec host="${ssh.server}" username="${ssh.user}" keyfile="${ssh.key}" trust="yes"
+			command="hadoop jar main.jar posmining.example.OnigiriCountByType s3://cspiral-bigdata/posdata/"
+		/>
+	</target>
+
+	<!-- おにぎり総数 -->
+	<target name="run.OnigiriCount" depends="prepare">
+		<sshexec host="${ssh.server}" username="${ssh.user}" keyfile="${ssh.key}" trust="yes"
+			command="hadoop jar main.jar posmining.example.OnigiriCount s3://cspiral-bigdata/posdata/"
+		/>
+	</target>
+
+	<!-- クラスタ実行のための準備タスク．プロジェクトをビルドしてJARに固めてSCPで送信する -->
+	<target name="prepare">
+
+		<mkdir dir="${build.path}" />
+
+		<path id="build.class.path">
+			<fileset dir="${hadoop.path}">
+				<include name="*.jar" />
+			</fileset>
+			<fileset dir="${hadoop.lib.path}">
+				<include name="*.jar" />
+			</fileset>
+		</path>
+
+		<javac encoding="utf-8"
+			srcdir="src"
+			destdir="${build.path}"
+			compiler="javac1.7"
+			includeantruntime="false"
+			debug="true">
+			<classpath refid="build.class.path" />
+		</javac>
+
+		<jar basedir="${build.path}" destfile="main.jar"/>
+
+		<scp file="main.jar"
+			todir="${ssh.user}:${ssh.pass}@${ssh.server}:~/."
+			keyfile="${ssh.key}"
+			trust = "yes" />
+	</target>
+
+</project>
