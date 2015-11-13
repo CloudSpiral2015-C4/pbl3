@@ -24,6 +24,7 @@ import posmining.utils.PosUtils;
  */
 public class CategoryItemGetter {
 
+
 	// MapReduceを実行するためのドライバ
 	public static void main(String[] args) throws IOException, InterruptedException, ClassNotFoundException {
 
