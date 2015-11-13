@@ -22,6 +22,7 @@ import posmining.utils.PosUtils;
  * @author shin
  *
  */
+
 public class OnigiriCount {
 
 	// MapReduceを実行するためのドライバ
