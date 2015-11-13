@@ -19,7 +19,7 @@ import posmining.utils.PosUtils;
 
 /**
  * 男女別の平均使用金額を計算する
- * 2段MRでの処理（2段目）
+ * 2段MRでの処理（2段目=）
  *
  * @author shin
  *
