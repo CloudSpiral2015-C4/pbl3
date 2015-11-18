@@ -5,11 +5,28 @@
 	<!-- 各メンバー固有のプロパティファイルの読み込み -->
 	<import file="build-common.xml" />
 
+	<!-- 売上 -->
+	<target name="run.CategoryItemGetter" depends="prepare">
+		<sshexec host="${ssh.server}" username="${ssh.user}" keyfile="${ssh.key}" trust="yes"
+			command="hadoop jar main.jar posmining.CategoryItemGetter s3://cspiral-bigdata/posdata/" />
+	</target>
+
 	<!-- 時間帯別 -->
 	<target name="run.HourlySalesGetter" depends="prepare">
 		<sshexec host="${ssh.server}" username="${ssh.user}" keyfile="${ssh.key}" trust="yes"
-			command="hadoop jar main.jar posmining.example.HourlySalesGetter s3://cspiral-bigdata/posdata/"
-		/>
+			command="hadoop jar main.jar posmining.HourlySalesGetter s3://cspiral-bigdata/posdata/" />
+	</target>
+
+	<!-- 性別・年代別 -->
+	<target name="run.CategoryItemGetterByAgeAndSex" depends="prepare">
+		<sshexec host="${ssh.server}" username="${ssh.user}" keyfile="${ssh.key}" trust="yes"
+			command="hadoop jar main.jar posmining.CategoryItemGetterByAgeAndSex s3://cspiral-bigdata/posdata/" />
+	</target>
+    
+	<!-- 月別別 -->
+	<target name="run.CategoryItemGetterByMonths" depends="prepare">
+		<sshexec host="${ssh.server}" username="${ssh.user}" keyfile="${ssh.key}" trust="yes"
+			command="hadoop jar main.jar posmining.CategoryItemGetterByMonths s3://cspiral-bigdata/posdata/" />
 	</target>
 
 	<!-- クラスタ実行のための準備タスク．プロジェクトをビルドしてJARに固めてSCPで送信する -->
