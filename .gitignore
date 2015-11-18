@@ -1,0 +1,4 @@
+bin
+build
+*.jar
+out
