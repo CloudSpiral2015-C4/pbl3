@@ -1,4 +1,4 @@
-package posmining.example;
+package posmining;
 
 import java.io.IOException;
 
